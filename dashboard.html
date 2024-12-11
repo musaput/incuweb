@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Incubator Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.0.0/mqtt.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1 class="dashboard-title">Welcome To Dashboard Incubator Analyzer</h1>
+
+        <div class="button-container">
+            <button class="glow-button" id="startButton">Start</button>
+            <button class="glow-button" id="logoutButton">Logout</button>
+        </div>
+
+        <!-- Modal Form Pengisian Administrasi -->
+        <div id="adminModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close-button" id="closeModal">&times;</span>
+                <h2>Administrative Filling</h2>
+                <form id="adminForm">
+                    <label for="tanggal">Date:</label>
+                    <input type="date" id="tanggal" required>
+                    
+                    <label for="user">User:</label>
+                    <input type="text" id="user" placeholder="enter user name" required>
+                    
+                    <label for="merek">Merk:</label>
+                    <input type="text" id="merek" placeholder="enter merk" required>
+                    
+                    <label for="type">Type:</label>
+                    <input type="text" id="type" placeholder="enter type" required>
+                    
+                    <label for="serial">Serial Number:</label>
+                    <input type="text" id="serial" placeholder="enter serial number" required>
+                    
+                    <button type="submit" class="glow-button">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Sensor Display Section -->
+        <div class="sensor-container">
+            <h3 class="sensor-title">Sensors</h3>
+            <div class="sensor-grid">
+                <div class="sensor-box">T1: <span id="sensorT1">0 °C</span></div>
+                <div class="sensor-box">T2: <span id="sensorT2">0 °C</span></div>
+                <div class="sensor-box">T3: <span id="sensorT3">0 °C</span></div>
+                <div class="sensor-box">T4: <span id="sensorT4">0 °C</span></div>
+                <div class="sensor-box">T5: <span id="sensorT5">0 °C</span></div>
+            </div>
+            <div class="sensor-grid">
+                <div class="sensor-box">Humidity: <span id="sensorHumidity">0 %RH</span></div>
+                <div class="sensor-box">Noise: <span id="sensorNoise">0 dB(A)</span></div>
+                <div class="sensor-box">Airflow: <span id="sensorAirflow">0 m/s</span></div>
+                <div class="sensor-box">Mattress: <span id="sensorMattress">0 °C</span></div>
+            </div>
+        </div>
+
+        <!-- Notice Section -->
+        <div class="notice">
+            <p>Ensure the device is connected to the internet network (Wi-Fi).</p>
+            <p>Ensure the sensors are installed or connected properly and correctly.</p>
+            <p>Check the sensors reading section.</p>
+            <p>Click the start button to start or take measurements.</p>
+            <p>Have a good job.</p>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk mengatur nilai awal sensor ke 0
+        function resetSensorValues() {
+            document.getElementById("sensorT1").innerText = "0 °C";
+            document.getElementById("sensorT2").innerText = "0 °C";
+            document.getElementById("sensorT3").innerText = "0 °C";
+            document.getElementById("sensorT4").innerText = "0 °C";
+            document.getElementById("sensorT5").innerText = "0 °C";
+            document.getElementById("sensorHumidity").innerText = "0 %RH";
+            document.getElementById("sensorNoise").innerText = "0 dB(A)";
+            document.getElementById("sensorAirflow").innerText = "0 m/s";
+            document.getElementById("sensorMattress").innerText = "0 °C";
+        }
+
+        // Panggil resetSensorValues saat halaman dimuat
+        window.onload = function() {
+            resetSensorValues();
+        };
+
+        // Event listener untuk tombol Logout
+        const logoutButton = document.getElementById('logoutButton');
+        logoutButton.addEventListener('click', function() {
+            window.location.href = 'login.html';
+        });
+
+        // Tampilkan modal form pengisian administrasi ketika tombol Start ditekan
+        const startButton = document.getElementById('startButton');
+        const adminModal = document.getElementById('adminModal');
+        const closeModal = document.getElementById('closeModal');
+        startButton.addEventListener('click', function() {
+            adminModal.style.display = "block";
+        });
+
+        // Tutup modal saat tombol close ditekan
+        closeModal.addEventListener('click', function() {
+            adminModal.style.display = "none";
+        });
+
+        // Event listener untuk klik di luar modal
+        window.addEventListener('click', function(event) {
+            if (event.target == adminModal) {
+                adminModal.style.display = "none";
+            }
+        });
+
+        // Fungsi untuk submit form administrasi
+        document.getElementById('adminForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Mencegah halaman refresh
+
+            // Ambil data dari form administrasi
+            const tanggal = document.getElementById('tanggal').value;
+            const user = document.getElementById('user').value;
+            const merek = document.getElementById('merek').value;
+            const type = document.getElementById('type').value;
+            const serial = document.getElementById('serial').value;
+
+            // Simpan data administrasi di localStorage
+            localStorage.setItem('tanggal', tanggal);
+            localStorage.setItem('user', user);
+            localStorage.setItem('merek', merek);
+            localStorage.setItem('type', type);
+            localStorage.setItem('serial', serial);
+
+            // Redirect ke halaman pengukuran
+            window.location.href = 'measurement.html';
+            adminModal.style.display = "none"; // Tutup modal setelah submit
+        });
+
+        // Koneksi ke broker EMQX MQTT via WebSocket
+        const client = mqtt.connect('wss://broker.emqx.io:8084/mqtt', {
+            username: 'musaput',
+            password: 'bismillah'
+        });
+
+        client.on('error', function (error) {
+            console.error("Connection Error: " + error);
+        });
+
+        client.on('connect', function () {
+            console.log("Connected to MQTT");
+            const topics = [
+                "incubator/sensor/t1",
+                "incubator/sensor/t2",
+                "incubator/sensor/t3",
+                "incubator/sensor/t4",
+                "incubator/sensor/t5",
+                "incubator/sensor/humidity",
+                "incubator/sensor/noise",
+                "incubator/sensor/airflow",
+                "incubator/sensor/mattress"
+            ];
+            topics.forEach(topic => client.subscribe(topic, { qos: 0 })); // QoS diubah menjadi 0
+        });
+
+        client.on('message', function (topic, message) {
+            console.log("Message Arrived: " + message.toString());
+            updateSensorValues(topic, message.toString());
+        });
+
+        function updateSensorValues(topic, value) {
+            if (topic === "incubator/sensor/t1") {
+                document.getElementById("sensorT1").innerText = value + " °C";
+            } else if (topic === "incubator/sensor/t2") {
+                document.getElementById("sensorT2").innerText = value + " °C";
+            } else if (topic === "incubator/sensor/t3") {
+                document.getElementById("sensorT3").innerText = value + " °C";
+            } else if (topic === "incubator/sensor/t4") {
+                document.getElementById("sensorT4").innerText = value + " °C";
+            } else if (topic === "incubator/sensor/t5") {
+                document.getElementById("sensorT5").innerText = value + " °C";
+            } else if (topic === "incubator/sensor/humidity") {
+                document.getElementById("sensorHumidity").innerText = value + " %RH";
+            } else if (topic === "incubator/sensor/noise") {
+                document.getElementById("sensorNoise").innerText = value + " dB(A)";
+            } else if (topic === "incubator/sensor/airflow") {
+                document.getElementById("sensorAirflow").innerText = value + " m/s";
+            } else if (topic === "incubator/sensor/mattress") {
+                document.getElementById("sensorMattress").innerText = value + " °C";
+            }
+        }
+    </script>
+</body>
+</html>

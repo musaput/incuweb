@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Measurement</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.0.0/mqtt.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="measurement-container">
+        <h2 class="measurement-title">Dashboard Measurement</h2>
+        
+        <div class="sensor-container">
+            <h3 class="sensor-title">Sensors</h3>
+            <div class="sensor-grid">
+                <div class="sensor-box">T1: <span id="sensorT1">0 °C</span></div>
+                <div class="sensor-box">T2: <span id="sensorT2">0 °C</span></div>
+                <div class="sensor-box">T3: <span id="sensorT3">0 °C</span></div>
+                <div class="sensor-box">T4: <span id="sensorT4">0 °C</span></div>
+                <div class="sensor-box">T5: <span id="sensorT5">0 °C</span></div>
+            </div>
+            <div class="sensor-grid">
+                <div class="sensor-box">Humidity: <span id="sensorHumidity">0 %RH</span></div>
+                <div class="sensor-box">Noise: <span id="sensorNoise">0 dB(A)</span></div>
+                <div class="sensor-box">Airflow: <span id="sensorAirflow">0 m/s</span></div>
+                <div class="sensor-box">Mattress: <span id="sensorMattress">0 °C</span></div>
+            </div>
+        </div>
+
+        <div class="buttonmeasurement-container">
+            <button class="glow-button" id="startStopButton">Start</button>
+            <button class="glow-button" id="resetButton">Reset</button>
+            <button class="glow-button" id="saveButton">Save</button>
+            <button class="glow-button" id="graphButton">Graph</button>
+            <button class="glow-button" id="backButton">Back</button>
+        </div>
+
+        <div class="interval-container">
+            <label for="intervalInput"><strong>Set Measurement Interval (sec):</strong></label>
+            <input type="number" id="intervalInput" min="5" value="5">
+            <button class="glow-button" id="applyIntervalButton">Apply Interval</button>
+        </div>
+
+        <div id="adminData" class="admin-data"></div>
+
+        <div class="measurement-table-container">
+            <h3 class="table-title">Measurement Data</h3>
+            <table id="measurementTable">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>T1</th>
+                        <th>T2</th>
+                        <th>T3</th>
+                        <th>T4</th>
+                        <th>T5</th>
+                        <th>Humidity</th>
+                        <th>Noise</th>
+                        <th>Airflow</th>
+                        <th>Mattress</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="graphModal" class="graph-modal" style="display: none;">
+        <div class="modal-content">
+            <h2>Select Graph(s)</h2>
+            <form id="graphForm" class="graph-form">
+                <div class="graph-options">
+                    <!-- Graph Options as Buttons -->
+                    <button type="button" class="glow-button" id="all">ALL</button>
+                    <button type="button" class="glow-button" id="t1_t5">T1-T5</button>
+                    <button type="button" class="glow-button" id="humidity">Humidity</button>
+                    <button type="button" class="glow-button" id="noise">Noise</button>
+                    <button type="button" class="glow-button" id="airflow">Airflow</button>
+                    <button type="button" class="glow-button" id="mattress">Mattress</button>
+                </div>
+            </form>
+    
+            <div class="button-container">
+                <button id="cancelModalButton" class="glow-button">Cancel</button>
+            </div>
+        </div>
+    </div>    
+
+    <!-- Link ke file JavaScript eksternal -->
+    <script src="measurement.js"></script>
+    <script>
+        // Pengaturan koneksi MQTT
+        const client = mqtt.connect('wss://broker.emqx.io:8084/mqtt', {
+            username: 'musaput',
+            password: 'bismillah'
+        });
+
+        client.on('error', function (error) {
+            console.error("Connection Error: " + error);
+        });
+
+        client.on('connect', function () {
+            console.log("Connected to MQTT broker");
+            const topics = [
+                "incubator/sensor/t1",
+                "incubator/sensor/t2",
+                "incubator/sensor/t3",
+                "incubator/sensor/t4",
+                "incubator/sensor/t5",
+                "incubator/sensor/humidity",
+                "incubator/sensor/noise",
+                "incubator/sensor/airflow",
+                "incubator/sensor/mattress"
+            ];
+            topics.forEach(topic => client.subscribe(topic, { qos: 0 }));
+        });
+
+        client.on('message', function (topic, message) {
+            console.log("Message Arrived: " + message.toString());
+            updateSensorValues(topic, message.toString());
+        });
+
+        let sensorData = {
+    T1: null,
+    T2: null,
+    T3: null,
+    T4: null,
+    T5: null,
+    humidity: null,
+    noise: null,
+    airflow: null,
+    mattress: null
+};
+
+function updateSensorValues(topic, value) {
+    if (topic === "incubator/sensor/t1") {
+        sensorData.T1 = value;
+        document.getElementById("sensorT1").innerText = value + " °C";
+    } else if (topic === "incubator/sensor/t2") {
+        sensorData.T2 = value;
+        document.getElementById("sensorT2").innerText = value + " °C";
+    } else if (topic === "incubator/sensor/t3") {
+        sensorData.T3 = value;
+        document.getElementById("sensorT3").innerText = value + " °C";
+    } else if (topic === "incubator/sensor/t4") {
+        sensorData.T4 = value;
+        document.getElementById("sensorT4").innerText = value + " °C";
+    } else if (topic === "incubator/sensor/t5") {
+        sensorData.T5 = value;
+        document.getElementById("sensorT5").innerText = value + " °C";
+    } else if (topic === "incubator/sensor/humidity") {
+        sensorData.humidity = value;
+        document.getElementById("sensorHumidity").innerText = value + " %RH";
+    } else if (topic === "incubator/sensor/noise") {
+        sensorData.noise = value;
+        document.getElementById("sensorNoise").innerText = value + " dB(A)";
+    } else if (topic === "incubator/sensor/airflow") {
+        sensorData.airflow = value;
+        document.getElementById("sensorAirflow").innerText = value + " m/s";
+    } else if (topic === "incubator/sensor/mattress") {
+        sensorData.mattress = value;
+        document.getElementById("sensorMattress").innerText = value + " °C";
+    }
+}
+    </script>
+</body>
+</html>

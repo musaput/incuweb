@@ -1,0 +1,723 @@
+/* Styling untuk body dan background */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('6057485.jpg') no-repeat center center/cover;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Box login */
+.login-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Judul login */
+.login-title {
+    color: #a6dcfe;
+    font-size: 30px;
+    margin-bottom: 20px;
+    text-shadow: 0px 0px 10px rgb(0, 0, 139),
+                 0px 0px 20px rgb(0, 0, 139),
+                 0px 0px 30px rgb(0, 0, 139),
+                 0px 0px 40px rgb(0, 0, 139),
+                 0px 0px 50px rgb(0, 0, 139),
+                 0px 0px 60px rgb(0, 0, 139);
+}
+
+/* Styling untuk input di login */
+.input-container {
+    position: relative;
+    margin: 15px 0;
+    text-align: left;
+}
+
+.input-icon {
+    position: absolute;
+    left: 10px;
+    top: 45%;
+    transform: translateY(-50%);
+    color: #fff;
+}
+
+/* Input field di login */
+input[type="text"],
+input[type="password"] {
+    width: calc(100% - 40px);
+    padding: 10px 10px 10px 40px;
+    margin: 10px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid white;
+    outline: none;
+    color: #fff;
+    font-size: 16px;
+}
+
+/* Tombol Log In dengan animasi lampu neon */
+.glow-button {
+    position: relative;
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: transparent;
+    border: 2px solid #0d1850;
+    cursor: pointer;
+    text-align: center;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: color 0.5s ease;
+}
+
+.glow-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: rgba(147, 112, 219, 0.5);
+    z-index: -1;
+    transition: all 0.5s ease;
+    border-radius: 8px;
+    animation: glow-animation 3s linear infinite;
+}
+
+.glow-button:hover {
+    color: #a6dcfe;
+    box-shadow: 0 0 10px #a6dcfe, 0 0 40px #a6dcfe, 0 0 80px #a6dcfe;
+}
+
+@keyframes glow-animation {
+    0% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Ikon mata untuk password */
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    bottom: 20px;
+    cursor: pointer;
+    color: #fff;
+    display: none;
+}
+
+/* Dashboard styling */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    color: #fff;
+}
+
+/* Title styling di dashboard */
+.dashboard-title {
+    font-size: 36px;
+    color: #a6dcfe;
+    margin-bottom: 20px;
+    text-shadow: 0px 0px 10px rgb(0, 0, 139),
+                 0px 0px 20px rgb(0, 0, 139),
+                 0px 0px 30px rgb(0, 0, 139),
+                 0px 0px 40px rgb(0, 0, 139),
+                 0px 0px 50px rgb(0, 0, 139),
+                 0px 0px 60px rgb(0, 0, 139),
+                 0px 0px 70px rgb(0, 0, 139);
+}
+
+/* Button container di dashboard */
+.button-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+/* Sensor grid layout di dashboard */
+.sensor-container {
+    margin-bottom: 40px;
+}
+
+.sensor-title {
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.sensor-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Sensor Box styling di dashboard */
+.sensor-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    font-size: 18px;
+    text-align: center;
+    color: #fff;
+}
+
+.sensor-grid:nth-of-type(2) {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* Notice Section di dashboard */
+.notice {
+    margin-top: 5px;
+    font-size: 16px;
+    color: #f0f0f0;
+    text-align: left;
+    max-width: 600px;
+    line-height: 1.5;
+}
+
+/* Styling untuk dashboard */
+.dashboard {
+    text-align: center;
+    padding: 40px;
+}
+
+/* Kotak sensor */
+.sensor-values {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+/* Pemberitahuan */
+.notification {
+    margin-top: 20px;
+    color: #fff;
+}
+
+/* Admin Fill */
+/* Styling untuk modal */
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 50;
+    left: 100;
+    width: 70%;
+    height: 80%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 95%;
+    height: 100%;
+    /* max-width: 500px; */
+    color: #fff;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+
+.modal-content h2 {
+    color: #a6dcfe;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-shadow: 0px 0px 10px rgb(0, 0, 139),
+                 0px 0px 20px rgb(0, 0, 139),
+                 0px 0px 30px rgb(0, 0, 139);
+}
+
+/* Close button */
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #a6dcfe;
+    text-shadow: 0px 0px 5px #a6dcfe;
+}
+
+/* Input field styling */
+.modal-content input[type="date"],
+.modal-content input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-bottom: 2px solid #a6dcfe;
+    outline: none;
+    color: #fff;
+    font-size: 16px;
+    text-align: left;
+}
+
+/* Label styling */
+.modal-content label {
+    display: block;
+    text-align: left;
+    color: #a6dcfe;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* Submit button */
+.modal-content .glow-button {
+    margin-top: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: transparent;
+    border: 2px solid #0d1850;
+    cursor: pointer;
+    text-align: center;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: color 0.5s ease;
+
+}
+
+.modal-content .glow-button:hover {
+    color: #a6dcfe;
+    box-shadow: 0 0 10px #a6dcfe, 0 0 40px #a6dcfe, 0 0 80px #a6dcfe;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Hindari scrollbar ganda */
+}
+
+/* Measurement tab */
+/* Styling container utama */
+.measurement-container {
+    max-height: 100vh; /* Maksimalkan tinggi agar tidak melebihi layar */
+    overflow-y: auto; /* Tambahkan scrollbar vertikal */
+    overflow-x: hidden; /* Hindari scrollbar horizontal jika tidak diperlukan */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    padding: 20px;
+    width: 90%;
+    max-width: 1500px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+}
+
+.measurement-container::-webkit-scrollbar {
+    width: 8px; /* Lebar scrollbar */
+}
+
+.measurement-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5); /* Warna scrollbar */
+    border-radius: 4px; /* Membuat sudut membulat */
+}
+
+.measurement-container::-webkit-scrollbar-track {
+    background: transparent; /* Latar belakang scrollbar */
+}
+
+
+/* Judul utama */
+.measurement-title {
+    font-size: 36px;
+    color: #a6dcfe;
+    margin-bottom: 5px;
+    text-shadow: 0px 0px 10px rgb(0, 0, 139),
+                 0px 0px 20px rgb(0, 0, 139),
+                 0px 0px 30px rgb(0, 0, 139),
+                 0px 0px 40px rgb(0, 0, 139);
+}
+
+/* Bagian sensor */
+.sensor-container {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.sensor-title {
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.sensor-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.sensor-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    font-size: 18px;
+    text-align: center;
+    color: #fff;
+}
+
+.sensor-grid:nth-of-type(2) {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* Styling untuk tombol-tombol */
+.buttonmeasurement-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.glow-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background: transparent;
+    border: 2px solid #0d1850;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: color 0.5s ease;
+    position: relative;
+}
+
+.glow-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: rgba(147, 112, 219, 0.5);
+    z-index: -1;
+    transition: all 0.5s ease;
+    border-radius: 8px;
+    animation: glow-animation 3s linear infinite;
+}
+
+.glow-button:hover {
+    color: #a6dcfe;
+    box-shadow: 0 0 10px #a6dcfe, 0 0 40px #a6dcfe, 0 0 80px #a6dcfe;
+}
+
+@keyframes glow-animation {
+    0% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Styling untuk data administrasi */
+.admin-data {
+    width: 100%;
+    margin-top: 5px;
+    /* background: rgba(255, 255, 255, 0.1); */
+    padding: 15px;
+    border-radius: 10px;
+    /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); */
+    color: #fff;
+    font-size: 16px;
+}
+
+.measurement-table-container {
+    margin-top: 5px;
+    text-align: center;
+    width: 95%; /* Sesuaikan lebar tabel agar lebih panjang */
+    max-width: 1400px; /* Sesuaikan agar mendekati lebar gambar */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table-title {
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+#measurementTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+}
+
+#measurementTable th, #measurementTable td {
+    padding: 15px; /* Ukuran padding untuk memperbesar ukuran tabel */
+    border: 1px solid #a6dcfe;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+}
+
+#measurementTable th {
+    background-color: rgba(0, 0, 139, 0.7);
+}
+
+#measurementTable tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Styling untuk interval container */
+.interval-container {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.interval-container label {
+    font-size: 16px;
+    color: #fff;
+}
+
+#intervalInput {
+    width: 80px;
+    padding: 8px;
+    border: 2px solid #0d1850;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+}
+
+#intervalInput::placeholder {
+    color: #a6dcfe;
+}
+
+#applyIntervalButton {
+    padding: 8px 16px;
+    font-size: 16px;
+    background: transparent;
+    border: 2px solid #0d1850;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.5s ease;
+}
+
+#applyIntervalButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: rgba(147, 112, 219, 0.5);
+    z-index: -1;
+    transition: all 0.5s ease;
+    border-radius: 8px;
+    animation: glow-animation 3s linear infinite;
+}
+
+#applyIntervalButton:hover {
+    color: #a6dcfe;
+    box-shadow: 0 0 10px #a6dcfe, 0 0 40px #a6dcfe, 0 0 80px #a6dcfe;
+}
+
+@media (max-width: 768px) {
+    .interval-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #intervalInput {
+        width: 100%;
+    }
+
+    #applyIntervalButton {
+        width: 100%;
+    }
+}
+
+/* TOMBOL ALL GRAFIK */
+/* Styling untuk graph-modal */
+.graph-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Memindahkan modal ke tengah layar */
+    width: 80%; /* Memperbesar lebar modal menjadi 80% */
+    height: 80%; /* Memperbesar tinggi modal menjadi 80% */
+    background: rgba(0, 0, 0, 0.7); /* Semitransparent dark background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Pastikan modal tetap di atas elemen lain */
+    overflow: hidden; /* Mencegah konten di belakang modal terlihat */
+}
+
+/* Styling untuk konten di dalam modal */
+.graph-modal .modal-content {
+    background: rgba(0, 0, 0, 0.7); /* Background gelap transparan */
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%; /* Memastikan konten mengikuti lebar modal */
+    max-width: 1200px; /* Menambah batas lebar maksimal modal */
+    text-align: center;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Shadow untuk memberi efek depth */
+    color: rgba(0, 0, 0, 0.7);
+    box-sizing: border-box; /* Memastikan padding tidak mempengaruhi ukuran total */
+    display: flex;
+    flex-direction: column; /* Mengatur arah konten secara vertikal */
+    justify-content: space-between; /* Membuat jarak antar elemen agar tombol "Cancel" terletak di bagian bawah */
+    height: 100%; /* Pastikan konten modal memanfaatkan tinggi penuh */
+}
+
+/* Styling untuk judul modal */
+.graph-modal .modal-content h2 {
+    font-size: 22px; /* Ukuran font judul sedikit lebih besar */
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Styling untuk tombol pilihan grafik */
+.graph-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Styling untuk tombol "Cancel" */
+.button-container {
+    display: flex;
+    justify-content: center; /* Menyusun tombol di tengah */
+    align-items: center;
+    margin-top: 20px; /* Memberikan sedikit ruang dari elemen sebelumnya */
+}
+
+/* Desain untuk kontainer grafik */
+.graph-container {
+    width: 100%; /* Memperbesar lebar kontainer */
+    max-width: 1500px; /* Menambah batas lebar maksimal kontainer grafik */
+    margin-top: 20px;
+    padding: 30px; /* Memberikan padding lebih besar */
+    background-color: rgba(0, 0, 0, 0.6); /* Warna latar belakang transparan */
+    border-radius: 15px; /* Memperhalus sudut */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: auto; /* Menambahkan scroll bar horizontal jika konten melampaui batas lebar */
+    max-height: 95vh; /* Meningkatkan tinggi maksimal kontainer */
+    height: 95%; /* Menambah ruang vertikal pada kontainer */
+}
+
+/* Gaya untuk scrollbar */
+.graph-container::-webkit-scrollbar {
+    width: 12px; /* Lebar scrollbar yang sedikit lebih besar */
+}
+
+.graph-container::-webkit-scrollbar-track {
+    background: transparent; /* Latar belakang scrollbar */
+}
+
+.graph-container::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5); /* Warna scrollbar */
+    border-radius: 4px; /* Membuat sudut membulat */
+}
+
+.graph-container::-webkit-scrollbar-thumb:hover {
+    background-color: #3d3d3d; /* Warna thumb saat hover */
+}
+
+/* Penataan judul halaman grafik */
+h1, h2 {
+    text-align: center;
+    color: #a6dcfe;
+    text-shadow: 0 0 20px rgba(0, 0, 139, 0.5);
+}
+
+/* Styling untuk grafik */
+canvas {
+    width: 100% !important;
+    height: 800px !important; /* Meningkatkan ukuran grafik untuk memanfaatkan ruang lebih banyak */
+    margin: 15px 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+/* Responsif untuk ukuran layar lebih kecil */
+@media (max-width: 768px) {
+    .graph-container {
+        padding: 15px;
+        width: 100%;
+    }
+
+    canvas {
+        height: 450px !important; /* Menyesuaikan ukuran grafik pada layar kecil */
+    }
+}
+
+/* Styling untuk setiap item grafik */
+.graph-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;  /* Menata konten secara vertikal */
+    justify-content: center; /* Menempatkan konten di tengah */
+    align-items: center;     /* Menempatkan tombol di tengah */
+    margin-bottom: 20px;     /* Memberikan ruang antara item grafik */
+}
+
+/* Styling untuk tombol "Save Graph" */
+.glow-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background: transparent;
+    border: 2px solid #0d1850;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: color 0.5s ease;
+    position: relative;
+}
+
+.glow-button:hover {
+    color: #a6dcfe;
+    box-shadow: 0 0 10px #a6dcfe, 0 0 40px #a6dcfe, 0 0 80px #a6dcfe;
+}

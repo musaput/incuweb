@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Login</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Menghubungkan file CSS -->
+</head>
+<body>
+    <div class="login-box">
+        <h2 class="login-title">SIGN UP</h2>
+        <div class="input-container">
+            <span class="input-icon">👤</span>
+            <input type="text" id="username" placeholder="username" required>
+        </div>
+        <div class="input-container">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="password" placeholder="password" required>
+            <span class="eye-icon" id="togglePassword">🙈</span>
+        </div>
+        <button class="glow-button" id="loginButton">Log In</button>
+        <p id="error-message" style="color: red; display: none;">Username or Password Incorrect!</p>
+    </div>
+
+    <script src="script.js"></script> <!-- Menghubungkan file JavaScript -->
+</body>
+</html>

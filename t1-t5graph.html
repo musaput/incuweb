@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>T1-T5 Graph</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <link rel="stylesheet" href="styles.css"> <!-- Link ke file CSS yang baru -->
+</head>
+<body>
+    <div class="graph-container">
+        <h1>T1-T5 Graphs</h1>
+
+        <div class="graph-item">
+            <canvas id="graphT1"></canvas>
+            <button onclick="saveGraph('graphT1')" class="glow-button">Save Graph T1</button>
+        </div>
+        <div class="graph-item">
+            <canvas id="graphT2"></canvas>
+            <button onclick="saveGraph('graphT2')" class="glow-button">Save Graph T2</button>
+        </div>
+        <div class="graph-item">
+            <canvas id="graphT3"></canvas>
+            <button onclick="saveGraph('graphT3')" class="glow-button">Save Graph T3</button>
+        </div>
+        <div class="graph-item">
+            <canvas id="graphT4"></canvas>
+            <button onclick="saveGraph('graphT4')" class="glow-button">Save Graph T4</button>
+        </div>
+        <div class="graph-item">
+            <canvas id="graphT5"></canvas>
+            <button onclick="saveGraph('graphT5')" class="glow-button">Save Graph T5</button>
+        </div>
+    </div>
+
+    <script>
+        // Deklarasikan variabel grafik secara global
+        let chartT1, chartT2, chartT3, chartT4, chartT5;
+
+        // Fungsi untuk mengambil data dari localStorage dan memeriksa kelengkapan data
+        function getDataFromStorage() {
+            const data = JSON.parse(localStorage.getItem('measurementData')) || [];
+            return data;
+        }
+
+        // Fungsi untuk memperbarui grafik
+        function updateGraphs() {
+            const measurementData = getDataFromStorage();
+
+            if (measurementData.length === 0) {
+                console.log('No data available yet');
+                return; // Jika data kosong, tidak update grafik
+            }
+
+            // Ambil data waktu dalam detik
+            const labels = measurementData.map(item => item.time);
+
+            // Data sensor
+            const dataT1 = measurementData.map(item => item.T1);
+            const dataT2 = measurementData.map(item => item.T2);
+            const dataT3 = measurementData.map(item => item.T3);
+            const dataT4 = measurementData.map(item => item.T4);
+            const dataT5 = measurementData.map(item => item.T5);
+
+            // Fungsi untuk membuat atau memperbarui grafik
+            function createOrUpdateGraph(chart, ctx, labels, data, label) {
+                if (chart) {
+                    // Jika grafik sudah ada, update data
+                    chart.data.labels = labels;
+                    chart.data.datasets[0].data = data;
+                    chart.update();
+                } else if (ctx) {
+                    // Jika grafik belum ada, buat grafik baru
+                    return new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: label,
+                                data: data,
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1,
+                                fill: false
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: false
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+
+            // Pastikan setiap elemen canvas ada di DOM sebelum diakses
+            chartT1 = createOrUpdateGraph(chartT1, document.getElementById('graphT1')?.getContext('2d'), labels, dataT1, 'T1');
+            chartT2 = createOrUpdateGraph(chartT2, document.getElementById('graphT2')?.getContext('2d'), labels, dataT2, 'T2');
+            chartT3 = createOrUpdateGraph(chartT3, document.getElementById('graphT3')?.getContext('2d'), labels, dataT3, 'T3');
+            chartT4 = createOrUpdateGraph(chartT4, document.getElementById('graphT4')?.getContext('2d'), labels, dataT4, 'T4');
+            chartT5 = createOrUpdateGraph(chartT5, document.getElementById('graphT5')?.getContext('2d'), labels, dataT5, 'T5');
+        }
+
+        // Event listener untuk mendeteksi perubahan pada localStorage
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'measurementData') {
+                // Data measurementData telah berubah, perbarui grafik
+                updateGraphs();
+            }
+        });
+
+        // Inisialisasi pertama kali jika data tersedia
+        updateGraphs();
+
+        // Fungsi untuk menyimpan grafik sebagai gambar
+        function saveGraph(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png'); // Mengonversi canvas menjadi gambar PNG
+            link.download = canvasId + '.png'; // Menetapkan nama file unduhan
+            link.click(); // Memicu unduhan
+        }
+    </script>
+</body>
+</html>
