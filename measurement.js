@@ -33,23 +33,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     
         elapsedTime = 0; // Reset waktu
-    
-        // Langsung ambil dan tampilkan data saat Start ditekan
-        const measurementData = getMeasurementData();  // Ambil data yang sudah diterima
-    
-        // Tambahkan data ke tabel dan simpan ke localStorage
-        addMeasurementRow(elapsedTime, measurementData);
-        saveDataToLocalStorage();
-    
-        // Set interval untuk pengambilan data berikutnya
-        measurementIntervalId = setInterval(function() {
+        
+        // Set interval untuk pengambilan data
+        measurementIntervalId = setInterval(function () {
             elapsedTime += intervalSeconds; // Tambahkan waktu sesuai interval
     
-            const measurementData = getMeasurementData();  // Ambil data yang sudah diterima
-            addMeasurementRow(elapsedTime, measurementData);
-            saveDataToLocalStorage();
+            const measurementData = getMeasurementData(); // Ambil data yang sudah diterima
+            addMeasurementRow(elapsedTime, measurementData); // Tambahkan data ke tabel
+            saveDataToLocalStorage(); // Simpan ke localStorage
         }, intervalSeconds * 1000);
-    }    
+    }
 
     // Fungsi untuk menghentikan interval pengukuran
     function stopMeasurement() {
