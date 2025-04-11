@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mattress Graph</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
     <link rel="stylesheet" href="styles.css"> <!-- Link ke file CSS yang baru -->
+    <style>
+        body {
+            background: url('27230.jpg') no-repeat center center/cover;
+        }
+        </style>
 </head>
 <body>
     <div class="graph-container">
-        <h1>Mattress Graphs</h1>
+        <h2 class="allgraph-title">Mattress Graph</h2>
 
         <div class="graph-item">
             <canvas id="graphMattress"></canvas>
@@ -58,19 +63,35 @@
                             datasets: [{
                                 label: label,
                                 data: data,
-                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderColor: 'rgba(255, 99, 132, 1)', // Merah
+                                backgroundColor: 'rgba(255, 99, 132, 0.5)', // Merah transparan
                                 borderWidth: 1,
                                 fill: false
                             }]
                         },
                         options: {
-                            responsive: true,
-                            scales: {
-                                y: {
-                                    beginAtZero: false
-                                }
-                            }
-                        }
+    responsive: true,
+    plugins: {
+        legend: {
+            labels: {
+                color: 'white' // Warna teks legend (putih)
+            }
+        }
+    },
+    scales: {
+        x: {
+            ticks: {
+                color: 'white' // Warna teks sumbu x (putih)
+            },
+        },
+        y: {
+            ticks: {
+                color: 'white' // Warna teks sumbu y (putih)
+            },
+            beginAtZero: false
+        }
+    }
+}
                     });
                 }
             }
