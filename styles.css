@@ -648,6 +648,18 @@ html, body {
     height: 95%; /* Menambah ruang vertikal pada kontainer */
 }
 
+.allgraph-title {
+    color: #a6dcfe;
+    font-size: 30px;
+    margin-bottom: 20px;
+    text-shadow: 0px 0px 10px rgb(0, 0, 139),
+                 0px 0px 20px rgb(0, 0, 139),
+                 0px 0px 30px rgb(0, 0, 139),
+                 0px 0px 40px rgb(0, 0, 139),
+                 0px 0px 50px rgb(0, 0, 139),
+                 0px 0px 60px rgb(0, 0, 139);
+}
+
 /* Gaya untuk scrollbar */
 .graph-container::-webkit-scrollbar {
     width: 12px; /* Lebar scrollbar yang sedikit lebih besar */
@@ -679,6 +691,7 @@ canvas {
     height: 800px !important; /* Meningkatkan ukuran grafik untuk memanfaatkan ruang lebih banyak */
     margin: 15px 0;
     background-color: rgba(255, 255, 255, 0.1);
+    /* background-color:white; */
     border-radius: 10px;
 }
 
@@ -720,4 +733,20 @@ canvas {
 .glow-button:hover {
     color: #a6dcfe;
     box-shadow: 0 0 10px #a6dcfe, 0 0 40px #a6dcfe, 0 0 80px #a6dcfe;
+}
+
+#intervalSelect {
+    width: 100px;
+    padding: 8px;
+    border: 2px solid #0d1850;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+}
+
+#intervalSelect option {
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
 }
