@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let elapsedTime = 0; // Untuk melacak waktu pengukuran
 
     // Referensi elemen interval
-    const intervalInput = document.getElementById('intervalInput');
+    const intervalSelect = document.getElementById('intervalSelect');
     const applyIntervalButton = document.getElementById('applyIntervalButton');
     const startStopButton = document.getElementById('startStopButton');
     const resetButton = document.getElementById('resetButton');
@@ -113,32 +113,47 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('measurementData', JSON.stringify(tableData));
     }
 
-    // Event listener untuk tombol Apply Interval
     applyIntervalButton.addEventListener('click', function() {
-        const intervalValue = parseInt(intervalInput.value);
-        if (isNaN(intervalValue) || intervalValue < 5) {
-            alert('Silakan masukkan interval yang valid (minimal 5 detik).');
+        const intervalValue = parseInt(intervalSelect.value);
+        if (isNaN(intervalValue)) {
+            alert('Choose the valid interval.');
             return;
         }
-        // Jika pengukuran sedang berjalan, restart dengan interval baru
+        
+        // Send the interval value to ESP32 via MQTT
+        if (typeof sendIntervalToESP32 === 'function') {
+            sendIntervalToESP32(intervalValue);
+        }
+        
+        // If measurement is running, restart with new interval
         if (measurementIntervalId !== null) {
             startMeasurement(intervalValue);
         }
-        alert(`Interval pengukuran diatur setiap ${intervalValue} detik.`);
+        alert(`Set Interval ${intervalValue} Second.`);
     });
 
-    // Event listener untuk tombol Start/Stop
     startStopButton.addEventListener('click', function() {
-        const intervalValue = parseInt(intervalInput.value);
+        const intervalValue = parseInt(intervalSelect.value);
         if (measurementIntervalId === null) {
-            if (isNaN(intervalValue) || intervalValue < 5) {
-                alert('Silakan masukkan interval yang valid (minimal 5 detik) sebelum memulai.');
+            if (isNaN(intervalValue)) {
+                alert('Choose the valid interval.');
                 return;
             }
+            
+            // Send "start" command to ESP32
+            if (typeof sendStartStopCommand === 'function') {
+                sendStartStopCommand("start");
+            }
+            
             startMeasurement(intervalValue);
             startStopButton.textContent = 'Stop';
             startStopButton.classList.add('active');
         } else {
+            // Send "stop" command to ESP32
+            if (typeof sendStartStopCommand === 'function') {
+                sendStartStopCommand("stop");
+            }
+            
             stopMeasurement();
             startStopButton.textContent = 'Start';
             startStopButton.classList.remove('active');
