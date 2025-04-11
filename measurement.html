@@ -38,8 +38,13 @@
         </div>
 
         <div class="interval-container">
-            <label for="intervalInput"><strong>Set Measurement Interval (sec):</strong></label>
-            <input type="number" id="intervalInput" min="5" value="30">
+            <label for="intervalSelect"><strong>Set Measurement Interval (sec):</strong></label>
+            <select id="intervalSelect">
+                <option value="30">30</option>
+                <option value="60">60</option>
+                <option value="90">90</option>
+                <option value="120">120</option>
+            </select>
             <button class="glow-button" id="applyIntervalButton">Apply Interval</button>
         </div>
 
@@ -164,6 +169,41 @@ function updateSensorValues(topic, value) {
         document.getElementById("sensorMattress").innerText = value + " °C";
     }
 }
+
+ // Function to send interval value via MQTT
+ function sendIntervalToESP32(intervalValue) {
+        const topic = "incubator/interval/set"; // Topic for interval setting
+        const message = intervalValue.toString(); // Convert to string
+        
+        client.publish(topic, message, { qos: 0 }, (error) => {
+            if (error) {
+                console.error("Failed to publish interval:", error);
+            } else {
+                console.log(`Interval ${intervalValue} sent to ESP32`);
+            }
+        });
+    }
+
+    // Event listener for Apply Interval button
+    document.getElementById('applyIntervalButton').addEventListener('click', function() {
+        const intervalValue = document.getElementById('intervalSelect').value;
+        sendIntervalToESP32(intervalValue);
+    });
+
+// Function to send start/stop command via MQTT
+function sendStartStopCommand(command) {
+        const topic = "incubator/control/startstop"; // Topic for start/stop commands
+        const message = command; // "start" or "stop"
+        
+        client.publish(topic, message, { qos: 0 }, (error) => {
+            if (error) {
+                console.error("Failed to publish command:", error);
+            } else {
+                console.log(`Command "${command}" sent to ESP32`);
+            }
+        });
+    }
+
     </script>
 </body>
 </html>
