@@ -89,12 +89,11 @@
 
             // Fungsi untuk membuat atau memperbarui grafik
             function createOrUpdateGraph(chart, ctx, labels, data, label) {
-    if (chart) {
-        // Jika grafik sudah ada, update data
-        chart.data.labels = labels;
-        chart.data.datasets[0].data = data;
-        chart.update();
-    } else if (ctx) {
+   if (chart) {
+        // Jika grafik sudah ada, hancurkan grafik lama terlebih dahulu
+        chart.destroy();
+    }
+    if (ctx) {
         // Tentukan warna berdasarkan label grafik
         let borderColor, backgroundColor;
         switch (label) {
@@ -137,35 +136,41 @@
                     borderColor: borderColor, // Warna tepi
                     backgroundColor: backgroundColor, // Warna latar belakang
                     borderWidth: 1,
-                    fill: false
+                    fill: false,
+                    tension: 0.5,
+                    pointRadius: 0
                 }]
             },
-    options: {
-    responsive: true,
-    plugins: {
-        legend: {
-            labels: {
-                color: 'white' // Warna teks legend (putih)
-            }
-        }
-    },
-    scales: {
-        x: {
-            ticks: {
-                color: 'white' // Warna teks sumbu x (putih)
-            },
-        },
-        y: {
-            ticks: {
-                color: 'white' // Warna teks sumbu y (putih)
-            },
-            beginAtZero: false
-        }
-    }
-}
-                    });
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: 'white' // Warna teks legend (putih)
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white' // Warna teks sumbu x (putih)
+                        },
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white', // Warna teks sumbu y (putih)
+                            stepSize: 0.10,
+                            callback: function(value) {
+                                return value.toFixed(2); // Tampilkan 2 desimal
+                            }
+                        },
+                        beginAtZero: false
+                    }
                 }
             }
+        });
+    }
+}
 
             // Pastikan setiap elemen canvas ada di DOM sebelum diakses
             chartT1 = createOrUpdateGraph(chartT1, document.getElementById('graphT1')?.getContext('2d'), labels, dataT1, 'T1');
