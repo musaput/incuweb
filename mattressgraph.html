@@ -49,24 +49,25 @@
 
             // Fungsi untuk membuat atau memperbarui grafik
             function createOrUpdateGraph(chart, ctx, labels, data, label) {
-                if (chart) {
-                    // Jika grafik sudah ada, update data
-                    chart.data.labels = labels;
-                    chart.data.datasets[0].data = data;
-                    chart.update();
-                } else if (ctx) {
-                    // Jika grafik belum ada, buat grafik baru
-                    return new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                label: label,
-                                data: data,
+    if (chart) {
+        // Jika grafik sudah ada, hancurkan grafik sebelumnya
+        chart.destroy();
+    }
+    if (ctx) {
+        // Jika grafik belum ada, buat grafik baru
+        return new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
                                 borderColor: 'rgba(255, 99, 132, 1)', // Merah
                                 backgroundColor: 'rgba(255, 99, 132, 0.5)', // Merah transparan
                                 borderWidth: 1,
-                                fill: false
+                                fill: false,
+                                tension: 0.5,
+                                pointRadius: 0
                             }]
                         },
                         options: {
@@ -86,7 +87,11 @@
         },
         y: {
             ticks: {
-                color: 'white' // Warna teks sumbu y (putih)
+                color: 'white', // Warna teks sumbu y (putih)
+                stepSize: 0.10,
+                            callback: function(value) {
+                                return value.toFixed(2); // Tampilkan 2 desimal
+                            }
             },
             beginAtZero: false
         }
